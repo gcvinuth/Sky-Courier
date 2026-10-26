@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#1b2a41">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Sky Courier</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+<style>
+:root{--ink:#1b2a41;--sun:#ffb627;--sky:#9bd8ff;--ok:#4fd18b;--bad:#ff5a5f;font-family:Trebuchet MS,Verdana,sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--sky);color:#fff;touch-action:none;user-select:none;-webkit-user-select:none}
+#game,canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
+#hud{position:fixed;top:max(10px,env(safe-area-inset-top));left:max(10px,env(safe-area-inset-left));right:max(10px,env(safe-area-inset-right));display:flex;gap:12px;align-items:flex-start;justify-content:space-between;pointer-events:none}
+.panel{background:rgba(27,42,65,.82);border-radius:10px;padding:8px 12px;min-width:150px;font-size:13px}
+.bar{height:9px;background:rgba(255,255,255,.2);border-radius:5px;overflow:hidden;margin:4px 0 7px}
+.bar i{display:block;height:100%;width:100%;background:var(--ok);transition:background .2s}
+#state{font-weight:700;color:var(--sun)}
+#stats{text-align:right}
+#ov{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(27,42,65,.55);padding:16px}
+#ov.hide{display:none}
+.card{background:var(--ink);border-radius:14px;padding:22px 26px;max-width:420px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+.card h1{margin:0 0 8px;font-size:28px;color:var(--sun)}
+.card p{margin:0 0 16px;line-height:1.5;font-size:15px;white-space:pre-line}
+button{font:inherit;font-weight:700;border:0;border-radius:10px;background:var(--sun);color:var(--ink);padding:12px 26px;font-size:16px;cursor:pointer}
+#touch{display:none}
+body.touch #touch{display:block}
+#stick{position:fixed;left:max(24px,env(safe-area-inset-left));bottom:max(24px,env(safe-area-inset-bottom));width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.4)}
+#knob{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;background:rgba(255,255,255,.75);pointer-events:none}
+#btns{position:fixed;right:max(24px,env(safe-area-inset-right));bottom:max(24px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
+#btns button{width:76px;height:76px;border-radius:50%;font-size:26px;padding:0;background:rgba(255,182,39,.8)}
+#btns button:active{background:var(--sun)}
+</style>
+</head>
+<body>
+<div id="game"></div>
+<div id="hud">
+  <div class="panel">
+    Battery<div class="bar"><i id="bat"></i></div>
+    Package<div class="bar"><i id="hp"></i></div>
+    <span id="state">Hover</span>
+  </div>
+  <div class="panel" id="stats">Delivery <b id="lvl">1</b> / 5<br>Score <b id="score">0</b><br><span id="goal">Pick up the package</span></div>
+</div>
+<div id="touch">
+  <div id="stick"><div id="knob"></div></div>
+  <div id="btns"><button id="bUp" aria-label="Ascend">▲</button><button id="bDn" aria-label="Descend">▼</button></div>
+</div>
+<div id="ov"><div class="card"><h1 id="ovT"></h1><p id="ovP"></p><button id="ovB"></button></div></div>
+<script type="module" src="game.js"></script>
+<script>
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js'));
+</script>
+</body>
+</html>
